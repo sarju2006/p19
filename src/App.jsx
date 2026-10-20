@@ -1,37 +1,37 @@
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link
-} from 'react-router-dom';
+import { useState } from "react";
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
+export default function App() {
+  const [students, setStudents] = useState([
+    { id: 1, name: "Sumit" },
+    { id: 2, name: "Rahul" },
+    { id: 3, name: "Amit" }
+  ]);
 
-function App() {
+  function deleteStudent(id) {
+    setStudents(
+      students.filter((student) => student.id !== id)
+    );
+  }
+
   return (
-    <BrowserRouter>
-      <div className="app">
-        <nav className="navbar">
-          <h2>Practical 11</h2>
+    <div>
+      <h1>Student Management</h1>
 
-          <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+      {students.length === 0 ? (
+        <p>No students available.</p>
+      ) : (
+        students.map((student) => (
+          <div key={student.id}>
+            <p>
+              {student.name}{" "}
+              <button onClick={() => deleteStudent(student.id)}>
+                Delete
+              </button>
+            </p>
           </div>
-        </nav>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+        ))
+      )}
+    </div>
   );
 }
-
-export default App;
